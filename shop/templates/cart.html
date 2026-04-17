@@ -3,10 +3,13 @@
 <head>
     <title>Cart</title>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <style>
         body {
             font-family: Arial;
             background: #f3f3f3;
+            margin: 0;
         }
 
         .container {
@@ -15,12 +18,48 @@
             margin-top: 30px;
         }
 
+        /* CART ITEM */
         .item {
             background: white;
             padding: 15px;
             margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            border-radius: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* IMAGE CARD */
+        .card {
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: 0.3s;
+            text-align: center;
+            max-width: 120px;
+        }
+
+        .card img {
+            width: 100%;
+            height: 120px;
+            object-fit: contain;
+        }
+
+        .card:hover {
+            transform: scale(1.03);
+        }
+
+        .btn {
+            padding: 10px;
+            background: #ff9900;
+            text-decoration: none;
+            color: black;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 10px;
         }
 
         .total {
@@ -30,32 +69,32 @@
             margin-top: 20px;
         }
 
-        .btn {
-            padding: 10px;
-            background: #ff9900;
+        /* CONTROLS */
+        .controls a {
+            margin-right: 8px;
             text-decoration: none;
-            color: black;
-        }
-        
-.card {
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    transition: 0.3s;
-    text-align: center;
-}
-
-.card img {
-    width: 100%;
-    height: 180px;
-    object-fit: contain;
-}
-
-        .card:hover {
-            transform: scale(1.03);
+            font-size: 18px;
         }
 
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .container {
+                width: 95%;
+            }
+
+            .item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .total {
+                text-align: center;
+            }
+
+            .card {
+                max-width: 100%;
+            }
+        }
     </style>
 </head>
 
@@ -67,22 +106,28 @@
 
     {% for product in products %}
     <div class="item">
+
         <div>
-        <div class="card">
-                 <a href="{% url 'product_detail' product.id %}">
-            <img src="{{ product.image }}">
-        </a>
-    </div>
+            <div class="card">
+                <a href="{% url 'product_detail' product.id %}">
+                    <img src="{{ product.image }}">
+                </a>
+            </div>
+
             <h3>{{ product.name }}</h3>
             <p>Qty: {{ product.qty }}</p>
+
+            <div class="controls">
                 <a href="{% url 'update_cart' product.id 'increase' %}">➕</a>
-        <a href="{% url 'update_cart' product.id 'decrease' %}">➖</a>
-        <a href="{% url 'update_cart' product.id 'remove' %}">❌</a>
+                <a href="{% url 'update_cart' product.id 'decrease' %}">➖</a>
+                <a href="{% url 'update_cart' product.id 'remove' %}">❌</a>
+            </div>
         </div>
 
         <div>
             ₹{{ product.total }}
         </div>
+
     </div>
     {% endfor %}
 
@@ -90,7 +135,7 @@
         Total: ₹{{ total }}
     </div>
 
-   <a href="{% url 'home' %}">Continue Shopping</a>
+    <a class="btn" href="{% url 'home' %}">Continue Shopping</a>
 
 </div>
 
