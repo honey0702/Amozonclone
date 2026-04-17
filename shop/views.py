@@ -47,7 +47,7 @@ def add_to_cart(request,id):
     else:
         cart[str(id)] = 1
     request.session['cart'] = cart
-    return redirect('/shop/')
+    return redirect('cart')
 
 def cart(request):
     cart = request.session.get('cart' , {})
