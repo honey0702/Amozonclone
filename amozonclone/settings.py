@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-z=fl4%^@^d6%8i#spy27-f!m1_7$=#o)4+^yd5%ir4s+hpo2#4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -73,9 +73,10 @@ WSGI_APPLICATION = 'amozonclone.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-DATABASES = {
+DDATABASES = {
     'default': dj_database_url.parse(
-        os.environ.get('DATABASE_URL')
+        os.environ.get('DATABASE_URL', 'sqlite:///db.sqlite3'),
+        conn_max_age=600
     )
 }
 
