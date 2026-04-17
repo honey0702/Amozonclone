@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-
+from .views import reset_password
 urlpatterns = [
       path('', views.home, name='home'),
      path('product/<int:id>/', views.product_detail, name='product_detail'),
@@ -10,4 +10,5 @@ urlpatterns = [
      path('catrgory/<str:name>/', views.category, name='category'),
      path('login/', views.login_view, name='login'),
      path('logout/' , views.logout_view, name='logout'),
+      path('reset-password/', reset_password),
 ]

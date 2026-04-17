@@ -3,6 +3,8 @@ from .models import Product
 from django.shortcuts import redirect
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.http import HttpResponse
 # Create your views here.
 def home(request):
     query = request.GET.get('q')
@@ -101,3 +103,14 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('home')
+
+
+
+def reset_password(request):
+    try:
+        user = User.objects.get(username='Honey')  # change if different
+        user.set_password('admin123')  # 👈 NEW PASSWORD
+        user.save()
+        return HttpResponse("Password reset successful")
+    except User.DoesNotExist:
+        return HttpResponse("User not found")
