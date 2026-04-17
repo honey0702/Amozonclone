@@ -105,12 +105,16 @@ def logout_view(request):
     return redirect('home')
 
 
-
 def reset_password(request):
-    try:
-        user = User.objects.get(username='Honey')  # change if different
-        user.set_password('admin123')  # 👈 NEW PASSWORD
-        user.save()
-        return HttpResponse("Password reset successful")
-    except User.DoesNotExist:
-        return HttpResponse("User not found")
+    if not User.objects.filter(username='admin').exists():
+        User.objects.create_superuser(
+            username='admin',
+            email='admin@gmail.com',
+            password='admin123'
+        )
+        return HttpResponse("Superuser created")
+
+    user = User.objects.get(username='admin')
+    user.set_password('admin123')
+    user.save()
+    return HttpResponse("Password reset successful")
